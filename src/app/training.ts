@@ -82,6 +82,14 @@ export function formatText(text: string, format: TextFormat): string {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
 
+
+export function Create<T extends object, K extends keyof T>(
+  user: T,
+  key: K
+): Omit<T, K> {
+  const { [key]: removed, ...result } = user;
+  return result;
+}
 // Create — создаёт новый объект без указанного свойства.
 // T — тип переданного объекта.
 // K — тип ключа (названия свойства).
@@ -91,10 +99,3 @@ export function formatText(text: string, format: TextFormat): string {
 // [key] — обращение к свойству по переданному имени.
 // ...result — собирает все остальные свойства в новый объект.
 // return result — возвращает новый объект.
-export function Create<T extends object, K extends keyof T>(
-  user: T,
-  key: K
-): Omit<T, K> {
-  const { [key]: removed, ...result } = user;
-  return result;
-}
