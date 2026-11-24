@@ -1,1 +1,71 @@
-<h1 style="display: flex; justify-content: center; font-family: sans-serif;">NGX SIMULATOR</h1>
+<header class="header">
+  <div class="header__container">
+
+    <!-- Логотип -->
+    <a href="#home" class="header__logo">
+      <img src="/images/Vector.png" alt="" class="header__logo-icon">
+      <span class="header__logo-text">{{ companyName }}</span>
+    </a>
+
+    <!-- Навигация -->
+    <nav class="header__nav">
+      @for (item of menuItems; track item.link) {
+      <a [href]="item.link" class="header__link">
+        {{ item.title }}
+      </a>
+      }
+    </nav>
+
+    <!-- Кнопка консультации -->
+    <a href="#contacts" class="header__button">
+      Консультация
+    </a>
+
+  </div>
+</header>
+<main id="home" class="hero">
+  <div class="hero__container">
+
+    <h1 class="hero__title">
+      НАСЛАДИСЬ ПРОГУЛКОЙ В ГОРАХ
+      <br>
+      С КОМАНДОЙ ЕДИНОМЫШЛЕННИКОВ
+    </h1>
+
+    <form class="search-form">
+
+      <div class="search-form__field">
+        <select class="search-form__select">
+          <option value="" selected disabled>Локация для тура</option>
+          <option value="altai">Алтай</option>
+          <option value="caucasus">Кавказ</option>
+          <option value="dagestan">Дагестан</option>
+        </select>
+        <span class="search-form__hint">выберите из списка</span>
+      </div>
+
+      <div class="search-form__field">
+        <input type="date" class="search-form__input" aria-label="Дата похода">
+        <span class="search-form__hint">укажите дату</span>
+      </div>
+
+      <div class="search-form__field">
+        <select class="search-form__select">
+          <option value="" selected disabled>Участники</option>
+          <option value="1">1 участник</option>
+          <option value="2">2 участника</option>
+          <option value="3">3 участника</option>
+          <option value="4">4 участника</option>
+          <option value="5">5 участников</option>
+        </select>
+        <span class="search-form__hint">выберите из списка</span>
+      </div>
+
+      <button type="submit" class="search-form__button">
+        Найти программу
+      </button>
+
+    </form>
+
+  </div>
+</main>
