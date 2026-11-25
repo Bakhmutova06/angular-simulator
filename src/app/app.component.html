@@ -1,1 +1,404 @@
-<h1 style="display: flex; justify-content: center; font-family: sans-serif;">NGX SIMULATOR</h1>
+@if (isLoading) {
+<div class="loading-screen">
+
+  <svg class="loading-spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+    <path d="M20 7V3L16 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M20 7A9 9 0 0 0 4.8 5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+
+    <path d="M4 17V21L8 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M4 17A9 9 0 0 0 19.2 18.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+  </svg>
+
+</div>
+}
+<header class="header">
+  <div class="header__container">
+
+    <!-- Логотип -->
+    <a href="#home" class="header__logo">
+      <img src="/images/Vector.png" alt="" class="header__logo-icon">
+      <span class="header__logo-text">{{ companyName }}</span>
+    </a>
+
+    <!-- Навигация -->
+    <nav class="header__nav">
+      @for (item of menuItems; track item.link) {
+      <a [href]="item.link" class="header__link">
+        {{ item.title }}
+      </a>
+      }
+    </nav>
+
+    <!-- Действия в шапке -->
+    <div class="header__actions">
+
+      <!-- Кнопка консультации -->
+      <a href="#contacts" class="header__button">
+        Консультация
+      </a>
+
+      <!-- Дата и кнопка -->
+      <div class="header__control">
+
+        @if (showDate) {
+        <div class="header__timer">
+          {{ currentDate }}
+        </div>
+        }
+
+        <button type="button" class="header__show-button" (click)="showDate = !showDate">
+          {{ showDate ? 'Скрыть дату' : 'Показать дату' }}
+        </button>
+
+      </div>
+
+      <!-- Счётчик и кнопка -->
+      <div class="header__control">
+
+        @if (showClicker) {
+        <div class="header__counter">
+
+          <button type="button" class="header__counter-button" (click)="decreaseClickCount()"
+            [disabled]="clickCount === 0">
+            −
+          </button>
+
+          <span class="header__counter-value">
+            {{ clickCount }}
+          </span>
+
+          <button type="button" class="header__counter-button" (click)="increaseClickCount()">
+            +
+          </button>
+
+        </div>
+        }
+
+        <button type="button" class="header__show-button" (click)="showClicker = !showClicker">
+          {{ showClicker ? 'Скрыть счётчик' : 'Показать счётчик' }}
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</header>
+<main id="home" class="hero">
+  <div class="hero__container">
+
+    <h1 class="hero__title">
+      НАСЛАДИСЬ ПРОГУЛКОЙ В ГОРАХ
+      <br>
+      С КОМАНДОЙ ЕДИНОМЫШЛЕННИКОВ
+    </h1>
+
+    <form class="search-form">
+    
+      <div class="search-form__field">
+        <select class="search-form__select" [(ngModel)]="location" name="location">
+          <option value="" disabled>Локация для тура</option>
+          <option value="altai">Алтай</option>
+          <option value="caucasus">Кавказ</option>
+          <option value="dagestan">Дагестан</option>
+        </select>
+        <span class="search-form__hint">выберите из списка</span>
+      </div>
+    
+      <div class="search-form__field">
+        <input type="date" class="search-form__input" aria-label="Дата похода" [(ngModel)]="tourDate" name="tourDate">
+        <span class="search-form__hint">укажите дату</span>
+      </div>
+    
+      <div class="search-form__field">
+        <select class="search-form__select" [(ngModel)]="participants" name="participants">
+          <option value="" disabled>Участники</option>
+          <option value="1">1 участник</option>
+          <option value="2">2 участника</option>
+          <option value="3">3 участника</option>
+          <option value="4">4 участника</option>
+          <option value="5">5 участников</option>
+        </select>
+        <span class="search-form__hint">выберите из списка</span>
+      </div>
+    
+      <button type="submit" class="search-form__button" [disabled]="!location || !tourDate || !participants">
+        Найти программу
+      </button>
+      
+    </form>
+<!-- Live input -->
+      <div class="live-input">
+        <input type="text" [(ngModel)]="liveInputValue" placeholder="Введите текст">
+      
+        <span class="live-input__result">
+          {{ liveInputValue }}
+        </span>
+      </div>
+    
+  </div>
+</main>
+<section class="about">
+  <div class="about__container">
+
+    <!-- Левый блок с изображением -->
+    <div class="about__media">
+      <img src="/images/Rectangle_5.png" alt="Горный пейзаж" class="about__image about__image--first">
+      
+      <img src="/images/Rectangle_4.png" alt="Горный пейзаж" class="about__image about__image--second">
+
+      <button type="button" class="about__video-button" aria-label="Воспроизвести видео">
+        <span class="about__play-icon"></span>
+      </button>
+    </div>
+
+    <!-- Правый блок с информацией -->
+    <div class="about__content">
+
+      <div class="about__heading">
+        <p class="about__label">О нашем походе</p>
+
+        <h2 class="about__subtitle">
+          Исследуйте все горные массивы мира вместе с нами
+        </h2>
+      </div>
+
+      <p class="about__text">
+        Его корни уходят в один фрагмент классической латыни
+        45 года н.э., то есть более двух тысячелетий назад.
+        Ричард МакКлинток, профессор латыни из колледжа
+        Hampden-Sydney, штат Вирджиния, взял одно из самых
+        странных слов в Lorem Ipsum, "consectetur" и занялся
+        его поисками в классической латинской литературе.
+      </p>
+
+      <a href="#program" class="about__button">
+        Программа тура
+      </a>
+
+    </div>
+
+  </div>
+</section>
+<section class="program">
+  <div class="program__container">
+
+    <div class="program__left">
+    
+      <!-- Заголовок -->
+      <div class="program__heading">
+        <p class="program__label">наше предложение</p>
+      
+        <h2 class="program__subtitle">
+          Лучшие программы для тебя
+        </h2>
+      </div>
+    
+      <!-- Описание -->
+      <p class="program__description">
+        Его корни уходят в один фрагмент классической латыни 45 года н.э.,
+        то есть более двух тысячелетий назад. Ричард МакКлинток,
+        профессор латыни из колледжа.
+      </p>
+    
+      <!-- Преимущества -->
+      @for (feature of programFeatures; track feature.title) {
+      <div class="program__feature">
+        <div class="program__feature-icon">
+          <img [src]="feature.icon" alt="" />
+        </div>
+      
+        <div class="program__feature-content">
+          <h3 class="program__feature-title">
+            {{ feature.title }}
+          </h3>
+      
+          <p class="program__feature-text">
+            {{ feature.text }}
+          </p>
+        </div>
+      </div>
+      }
+      <!-- Кнопка -->
+      <a href="#price" class="program__button">
+        Стоимость программы
+      </a>
+    
+    </div>
+
+    <div class="program__right">
+    
+      <div class="program__gallery">
+        <img src="/images/Rectangle_8.png" alt="" class="program__gallery-image">
+        <img src="/images/Rectangle_9.png" alt="" class="program__gallery-image">
+        <img src="/images/Rectangle_10.png" alt="" class="program__gallery-image">
+        <img src="/images/Rectangle_11.png" alt="" class="program__gallery-image">
+      </div>
+    
+    </div>
+
+  </div>
+<section class="popular">
+  <div class="popular__container">
+
+    <div class="popular__heading">
+      <p class="popular__label">по версии отдыхающих</p>
+      <h2 class="popular__title">
+        Популярные направления
+      </h2>
+    </div>
+
+    <div class="popular__cards">
+
+      <!-- Первая карточка -->
+      <div class="popular__card">
+        <img src="/images/Rectangle_12.png" alt="" class="popular__image">
+
+        <div class="popular__rating">
+          <img src="/images/ic_round-star.png" alt="">
+          <span>4.9</span>
+        </div>
+
+        <div class="popular__overlay">
+          <div class="popular__info">
+            <h3 class="popular__name">Озеро возле гор</h3>
+            <p class="popular__description">романтическое приключение</p>
+          </div>
+
+          <div class="popular__price">480$</div>
+        </div>
+      </div>
+
+      <!-- Вторая карточка -->
+      <div class="popular__card">
+        <img src="/images/Rectangle_13.png" alt="" class="popular__image">
+
+        <div class="popular__rating">
+          <img src="/images/ic_round-star.png" alt="">
+          <span>4.9</span>
+        </div>
+
+        <div class="popular__overlay">
+          <div class="popular__info">
+            <h3 class="popular__name">Ночь в горах</h3>
+            <p class="popular__description">в компании друзей</p>
+          </div>
+
+          <div class="popular__price">500$</div>
+        </div>
+      </div>
+
+      <!-- Третья карточка -->
+      <div class="popular__card">
+        <img src="/images/Rectangle_14.png" alt="" class="popular__image">
+
+        <div class="popular__rating">
+          <img src="/images/ic_round-star.png" alt="">
+          <span>4.9</span>
+        </div>
+
+        <div class="popular__overlay">
+          <div class="popular__info">
+            <h3 class="popular__name">Растяжка в горах</h3>
+            <p class="popular__description">для тех, кто заботиться о себе</p>
+          </div>
+
+          <div class="popular__price">230$</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section class="blog">
+
+  <div class="blog__button-container">
+    <a href="#popular" class="blog__button">Рейтинг направлений</a>
+  </div>
+
+  <div class="blog__container">
+
+    <div class="blog__heading">
+      <p class="blog__label">делимся впечатлениями</p>
+      <h2 class="blog__title">Блог о путешествиях</h2>
+    </div>
+
+    <div class="blog__cards">
+
+      <!-- Первая карточка -->
+      <article class="blog__card">
+        <img src="/images/Rectangle_15.png" alt="" class="blog__image">
+
+        <div class="blog__content">
+          <h3 class="blog__card-title">
+            Красивая Италия, какая она в реальности?
+          </h3>
+
+          <p class="blog__description">
+            Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих
+            условий активизации.
+          </p>
+
+          <div class="blog__footer">
+            <span class="blog__date">01/04/2023</span>
+            <a href="#" class="blog__link">читать статью</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Вторая карточка -->
+      <article class="blog__card">
+        <img src="/images/Rectangle_16.png" alt="" class="blog__image">
+      
+        <div class="blog__content">
+          <h3 class="blog__card-title">
+            Долой сомнения! Весь мир открыт для вас!
+          </h3>
+      
+          <p class="blog__description">
+            Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий
+            активизации ... независимые способы реализации соответствующих...
+          </p>
+      
+          <div class="blog__footer">
+            <span class="blog__date">01/04/2023</span>
+            <a href="#" class="blog__link">читать статью</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Третья карточка -->
+      <article class="blog__card">
+        <img src="/images/Rectangle_17.png" alt="" class="blog__image">
+
+        <div class="blog__content">
+          <h3 class="blog__card-title">Заголовок третьей статьи</h3>
+          <p class="blog__description">Описание третьей статьи.</p>
+
+          <div class="blog__footer">
+            <span class="blog__date">01/04/2023</span>
+            <a href="#" class="blog__link">читать статью</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Четвёртая карточка -->
+      <article class="blog__card">
+        <img src="/images/Rectangle_18.png" alt="" class="blog__image">
+
+        <div class="blog__content">
+          <h3 class="blog__card-title">Заголовок четвёртой статьи</h3>
+          <p class="blog__description">Описание четвёртой статьи.</p>
+
+          <div class="blog__footer">
+            <span class="blog__date">01/04/2023</span>
+            <a href="#" class="blog__link">читать статью</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
