@@ -34,8 +34,10 @@ firstCity = this.cityCollection.get(0);
     { title: 'Блог', link: '#blog' },
     { title: 'Контакты', link: '#contacts' },
   ];
-  isPrimaryColor(color: string): boolean {
-  return Object.values(Color).includes(color as Color);
+ isPrimaryColor(color: string): boolean {
+  return color === Color.Red ||
+    color === Color.Green ||
+    color === Color.Blue;
   }
   saveLastVisit(): void {
   const lastVisit = new Date().toLocaleString();//получает текущую дату и время.toLocaleString() — переводит дату в привычный формат.
