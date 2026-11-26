@@ -1000,3 +1000,13 @@
     transform: rotate(360deg);
   }
 }
+/* Вращение иконки */
+@keyframes loading-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
