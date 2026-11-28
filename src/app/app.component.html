@@ -1,3 +1,18 @@
+@if (isLoading) {
+<div class="loading-screen">
+
+  <svg class="loading-spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+    <path d="M20 7V3L16 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M20 7A9 9 0 0 0 4.8 5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+
+    <path d="M4 17V21L8 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <path d="M4 17A9 9 0 0 0 19.2 18.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+  </svg>
+
+</div>
+}
 <header class="header">
   <div class="header__container">
 
@@ -16,10 +31,58 @@
       }
     </nav>
 
-    <!-- Кнопка консультации -->
-    <a href="#contacts" class="header__button">
-      Консультация
-    </a>
+    <!-- Действия в шапке -->
+    <div class="header__actions">
+
+      <!-- Кнопка консультации -->
+      <a href="#contacts" class="header__button">
+        Консультация
+      </a>
+
+      <!-- Дата и кнопка -->
+      <div class="header__control">
+
+        @if (showDate) {
+        <div class="header__timer">
+          {{ currentDate }}
+        </div>
+        }
+
+        <button type="button" class="header__show-button" (click)="showDate = !showDate">
+          {{ showDate ? 'Скрыть дату' : 'Показать дату' }}
+        </button>
+
+      </div>
+
+      <!-- Счётчик и кнопка -->
+      <div class="header__control">
+
+        @if (showClicker) {
+        <div class="header__counter">
+
+          <button type="button" class="header__counter-button" (click)="decreaseClickCount()"
+            [disabled]="clickCount === 0">
+            −
+          </button>
+
+          <span class="header__counter-value">
+            {{ clickCount }}
+          </span>
+
+          <button type="button" class="header__counter-button" (click)="increaseClickCount()">
+            +
+          </button>
+
+        </div>
+        }
+
+        <button type="button" class="header__show-button" (click)="showClicker = !showClicker">
+          {{ showClicker ? 'Скрыть счётчик' : 'Показать счётчик' }}
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 </header>
@@ -33,25 +96,25 @@
     </h1>
 
     <form class="search-form">
-
+    
       <div class="search-form__field">
-        <select class="search-form__select">
-          <option value="" selected disabled>Локация для тура</option>
+        <select class="search-form__select" [(ngModel)]="location" name="location">
+          <option value="" disabled>Локация для тура</option>
           <option value="altai">Алтай</option>
           <option value="caucasus">Кавказ</option>
           <option value="dagestan">Дагестан</option>
         </select>
         <span class="search-form__hint">выберите из списка</span>
       </div>
-
+    
       <div class="search-form__field">
-        <input type="date" class="search-form__input" aria-label="Дата похода">
+        <input type="date" class="search-form__input" aria-label="Дата похода" [(ngModel)]="tourDate" name="tourDate">
         <span class="search-form__hint">укажите дату</span>
       </div>
-
+    
       <div class="search-form__field">
-        <select class="search-form__select">
-          <option value="" selected disabled>Участники</option>
+        <select class="search-form__select" [(ngModel)]="participants" name="participants">
+          <option value="" disabled>Участники</option>
           <option value="1">1 участник</option>
           <option value="2">2 участника</option>
           <option value="3">3 участника</option>
@@ -60,13 +123,21 @@
         </select>
         <span class="search-form__hint">выберите из списка</span>
       </div>
-
-      <button type="submit" class="search-form__button">
+    
+      <button type="submit" class="search-form__button" [disabled]="!location || !tourDate || !participants">
         Найти программу
       </button>
-
+      
     </form>
-
+<!-- Live input -->
+      <div class="live-input">
+        <input type="text" [(ngModel)]="liveInputValue" placeholder="Введите текст">
+      
+        <span class="live-input__result">
+          {{ liveInputValue }}
+        </span>
+      </div>
+    
   </div>
 </main>
 <section class="about">
@@ -133,51 +204,23 @@
       </p>
     
       <!-- Преимущества -->
+      @for (feature of programFeatures; track feature.title) {
       <div class="program__feature">
         <div class="program__feature-icon">
-          <img src="/images/Group_16.png" alt="" />
+          <img [src]="feature.icon" alt="" />
         </div>
-    
+      
         <div class="program__feature-content">
-          <h3 class="program__feature-title">Опытный гид</h3>
-    
+          <h3 class="program__feature-title">
+            {{ feature.title }}
+          </h3>
+      
           <p class="program__feature-text">
-            Для современного мира базовый вектор развития предполагает
-            независимые способы реализации соответствующих условий активизации.
+            {{ feature.text }}
           </p>
         </div>
       </div>
-    
-      <div class="program__feature">
-        <div class="program__feature-icon">
-          <img src="/images/Group_17.png" alt="" />
-        </div>
-    
-        <div class="program__feature-content">
-          <h3 class="program__feature-title">Безопасный поход</h3>
-    
-          <p class="program__feature-text">
-            Для современного мира базовый вектор развития предполагает
-            независимые способы реализации соответствующих условий активизации.
-          </p>
-        </div>
-      </div>
-    
-      <div class="program__feature">
-        <div class="program__feature-icon">
-          <img src="/images/Group_18.png" alt="" />
-        </div>
-    
-        <div class="program__feature-content">
-          <h3 class="program__feature-title">Лояльные цены</h3>
-    
-          <p class="program__feature-text">
-            Для современного мира базовый вектор развития предполагает
-            независимые способы реализации соответствующих условий активизации.
-          </p>
-        </div>
-      </div>
-    
+      }
       <!-- Кнопка -->
       <a href="#price" class="program__button">
         Стоимость программы
@@ -305,7 +348,6 @@
         </div>
       </article>
 
-      <!-- Вторая карточка -->
       <!-- Вторая карточка -->
       <article class="blog__card">
         <img src="/images/Rectangle_16.png" alt="" class="blog__image">
